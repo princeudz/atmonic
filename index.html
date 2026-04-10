@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="ATMONIC – AI-powered websites, apps, and automation systems. Build Smarter. Grow Faster.">
+<meta name="keywords" content="AI agency, web development, app development, AI automation, digital agency">
+<title>ATMONIC – Build Smarter. Grow Faster.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ─── RESET ─── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Inter',sans-serif;background:#080810;color:#e8e8f0;overflow-x:hidden;line-height:1.65;}
+a{color:inherit;}
+img{display:block;max-width:100%;}
+
+/* ─── VARIABLES ─── */
+:root{
+  --bg:#080810;--bg2:#0d0d1a;
+  --surface:rgba(255,255,255,0.04);--surface2:rgba(255,255,255,0.07);
+  --border:rgba(255,255,255,0.08);
+  --neon1:#00d4ff;--neon2:#7b2fff;--neon3:#ff2dce;
+  --grad:linear-gradient(135deg,#00d4ff,#7b2fff);
+  --text:#e8e8f0;--muted:#8888aa;
+  --r:16px;--rl:24px;
+}
+
+/* ─── PROGRESS BAR ─── */
+#progress-bar{position:fixed;top:0;left:0;height:2px;width:0%;background:var(--grad);z-index:9999;transition:width .1s linear;box-shadow:0 0 10px var(--neon1);}
+
+/* ─── NAVBAR ─── */
+nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:0 5%;height:70px;display:flex;align-items:center;justify-content:space-between;transition:background .4s,backdrop-filter .4s,border-bottom .4s;}
+nav.scrolled{background:rgba(8,8,16,.82);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border);}
+
+/* ── LOGO ──
+   HOW TO ADD YOUR LOGO:
+   • Option A (Image): Put your logo file in the same folder,
+     then change the src on the <img id="navLogoImg"> to e.g. src="logo.png"
+     The image will show and the text will hide automatically.
+   • Option B (Text only): Leave the img src blank — text shows by default.
+   • Recommended: PNG or SVG with transparent background, height ~40 px.
+*/
+.logo-wrap{display:flex;align-items:center;gap:.55rem;text-decoration:none;cursor:pointer;}
+.logo-img{height:38px;width:auto;object-fit:contain;display:none;}
+.logo-img.show{display:block;}
+.logo-text{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.4rem;font-weight:800;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:1.5px;}
+
+.nav-links{display:flex;align-items:center;gap:1.8rem;list-style:none;}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:.88rem;font-weight:500;transition:color .25s;white-space:nowrap;}
+.nav-links a:hover{color:#fff;}
+.nav-cta{padding:.48rem 1.25rem;border-radius:50px;background:var(--grad);color:#fff;font-size:.84rem;font-weight:600;font-family:'Inter',sans-serif;text-decoration:none;transition:transform .2s,box-shadow .3s;box-shadow:0 0 20px rgba(0,212,255,.28);white-space:nowrap;}
+.nav-cta:hover{transform:translateY(-2px);box-shadow:0 0 32px rgba(0,212,255,.5);}
+
+/* hamburger */
+.ham{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:5px;background:none;border:none;}
+.ham span{display:block;width:24px;height:2px;background:var(--text);border-radius:2px;transition:all .3s;}
+.ham.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px);}
+.ham.open span:nth-child(2){opacity:0;transform:scaleX(0);}
+.ham.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px);}
+
+/* mobile menu */
+.mob-menu{position:fixed;top:70px;left:0;right:0;z-index:850;background:rgba(8,8,16,.97);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);padding:1.5rem 5% 2rem;flex-direction:column;gap:0;border-bottom:1px solid var(--border);display:none;}
+.mob-menu.open{display:flex;animation:mobSlide .25s ease both;}
+@keyframes mobSlide{from{opacity:0;transform:translateY(-8px);}to{opacity:1;transform:translateY(0);}}
+.mob-menu a{color:var(--text);text-decoration:none;font-size:1rem;font-weight:500;font-family:'Inter',sans-serif;padding:.88rem 0;border-bottom:1px solid var(--border);transition:color .2s;}
+.mob-menu a:last-child{border-bottom:none;}
+.mob-menu a:hover{color:var(--neon1);}
+
+/* ─── HERO ─── */
+#hero{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:100px 5% 80px;text-align:center;}
+.hero-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(ellipse 80% 60% at 50% 40%,rgba(123,47,255,.15) 0%,transparent 70%),radial-gradient(ellipse 50% 50% at 80% 20%,rgba(0,212,255,.1) 0%,transparent 60%),radial-gradient(ellipse 40% 40% at 20% 80%,rgba(255,45,206,.07) 0%,transparent 60%),#080810;}
+.grid-bg{position:absolute;inset:0;z-index:1;background-image:linear-gradient(rgba(255,255,255,.022) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.022) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse 70% 70% at center,black 30%,transparent 80%);-webkit-mask-image:radial-gradient(ellipse 70% 70% at center,black 30%,transparent 80%);}
+.particles{position:absolute;inset:0;z-index:2;overflow:hidden;pointer-events:none;}
+.particle{position:absolute;border-radius:50%;animation:pdrift linear infinite;}
+@keyframes pdrift{0%{transform:translateY(110vh);opacity:0;}8%{opacity:1;}92%{opacity:1;}100%{transform:translateY(-120px) translateX(18px);opacity:0;}}
+.hero-inner{position:relative;z-index:5;max-width:820px;width:100%;}
+.hero-badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(0,212,255,.09);border:1px solid rgba(0,212,255,.25);border-radius:50px;padding:.38rem 1rem;font-size:.77rem;color:var(--neon1);margin-bottom:1.5rem;letter-spacing:1px;font-weight:500;animation:fadeUp .6s ease both;}
+.hero-badge .dot{width:6px;height:6px;background:var(--neon1);border-radius:50%;flex-shrink:0;animation:dotblink 2s infinite;}
+@keyframes dotblink{0%,100%{opacity:1;box-shadow:0 0 6px var(--neon1);}50%{opacity:.35;box-shadow:none;}}
+h1{font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(2.5rem,7.5vw,5.6rem);font-weight:800;line-height:1.07;letter-spacing:-1px;margin-bottom:1.4rem;animation:fadeUp .7s .1s ease both;}
+.g{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hero-sub{font-size:clamp(.94rem,2.3vw,1.12rem);color:var(--muted);max-width:540px;margin:0 auto 2.4rem;animation:fadeUp .7s .2s ease both;}
+.hero-btns{display:flex;gap:.9rem;justify-content:center;flex-wrap:wrap;animation:fadeUp .7s .3s ease both;}
+.btn-p{padding:.84rem 2rem;border-radius:50px;background:var(--grad);color:#fff;font-weight:600;font-family:'Inter',sans-serif;font-size:.92rem;text-decoration:none;cursor:pointer;border:none;position:relative;overflow:hidden;transition:transform .2s,box-shadow .3s;animation:gpulse 3s ease-in-out infinite;}
+.btn-p:hover{transform:translateY(-3px);box-shadow:0 0 50px rgba(0,212,255,.5),0 8px 28px rgba(0,0,0,.5);}
+@keyframes gpulse{0%,100%{box-shadow:0 0 28px rgba(0,212,255,.3),0 4px 18px rgba(0,0,0,.4);}50%{box-shadow:0 0 48px rgba(123,47,255,.42),0 4px 18px rgba(0,0,0,.4);}}
+.btn-s{padding:.84rem 2rem;border-radius:50px;background:transparent;color:var(--text);font-weight:600;font-family:'Inter',sans-serif;font-size:.92rem;text-decoration:none;cursor:pointer;border:1px solid rgba(255,255,255,.13);transition:all .3s;}
+.btn-s:hover{border-color:var(--neon1);color:var(--neon1);box-shadow:0 0 20px rgba(0,212,255,.18);transform:translateY(-3px);}
+.ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,.28);transform:scale(0);animation:rip .6s linear;pointer-events:none;}
+@keyframes rip{to{transform:scale(4);opacity:0;}}
+.stats{display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap;margin-top:3rem;animation:fadeUp .7s .4s ease both;}
+.sdiv{width:1px;background:var(--border);align-self:stretch;margin:.3rem 0;}
+.stat{text-align:center;padding:0 .5rem;}
+.stat-n{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.75rem;font-weight:800;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;}
+.stat-l{font-size:.77rem;color:var(--muted);margin-top:.25rem;}
+.scroll-hint{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;z-index:5;animation:fadeIn 1s 1s ease both;}
+.scroll-line{width:1px;height:46px;background:linear-gradient(to bottom,rgba(0,212,255,.6),transparent);animation:sblink 2s ease-in-out infinite;}
+@keyframes sblink{0%,100%{opacity:.25;transform:scaleY(.5);}50%{opacity:1;transform:scaleY(1);}}
+
+/* ─── COMMON SECTION ─── */
+section{padding:100px 5%;}
+.slabel{font-size:.72rem;letter-spacing:3px;text-transform:uppercase;color:var(--neon1);margin-bottom:.7rem;font-weight:600;}
+.stitle{font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(1.85rem,4.5vw,2.95rem);font-weight:800;line-height:1.12;margin-bottom:1rem;}
+.ssub{color:var(--muted);max-width:540px;font-size:1rem;margin-bottom:3rem;line-height:1.78;}
+.sh{margin-bottom:4rem;}.sh.c{text-align:center;display:flex;flex-direction:column;align-items:center;}
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .65s ease,transform .65s ease;}
+.reveal.vis{opacity:1;transform:none;}
+
+/* ─── SERVICES ─── */
+#services{background:var(--bg2);}
+.srv-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;}
+.srv-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);padding:1.8rem;position:relative;overflow:hidden;transition:transform .3s,box-shadow .3s,border-color .3s;}
+.srv-card::before{content:'';position:absolute;inset:0;border-radius:inherit;background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(0,212,255,.07) 0%,transparent 55%);opacity:0;transition:opacity .3s;}
+.srv-card:hover::before{opacity:1;}
+.srv-card:hover{transform:translateY(-7px);box-shadow:0 20px 56px rgba(0,0,0,.35),0 0 0 1px rgba(0,212,255,.18);border-color:rgba(0,212,255,.22);}
+.srv-icon{width:50px;height:50px;border-radius:13px;display:flex;align-items:center;justify-content:center;margin-bottom:1.1rem;font-size:1.4rem;background:var(--surface2);border:1px solid var(--border);transition:all .3s;}
+.srv-card:hover .srv-icon{background:rgba(0,212,255,.1);border-color:rgba(0,212,255,.28);box-shadow:0 0 18px rgba(0,212,255,.18);}
+.srv-card h3{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.05rem;font-weight:700;margin-bottom:.55rem;}
+.srv-card p{color:var(--muted);font-size:.875rem;line-height:1.75;}
+.srv-tag{display:inline-block;margin-top:1.1rem;padding:.22rem .7rem;background:rgba(0,212,255,.07);border:1px solid rgba(0,212,255,.14);border-radius:50px;font-size:.68rem;color:var(--neon1);letter-spacing:.8px;font-weight:500;}
+
+/* ─── ABOUT ─── */
+#about{background:var(--bg);}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;}
+.about-vis{position:relative;height:420px;border-radius:var(--rl);background:var(--surface);border:1px solid var(--border);overflow:hidden;}
+.a-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,rgba(123,47,255,.28) 0%,transparent 70%);animation:breathe 4.5s ease-in-out infinite;}
+@keyframes breathe{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:.6;}50%{transform:translate(-50%,-50%) scale(1.25);opacity:1;}}
+.a-rings{position:absolute;top:50%;left:50%;}
+.aring{position:absolute;border-radius:50%;transform:translate(-50%,-50%);animation:rspin linear infinite;}
+.aring:nth-child(1){width:160px;height:160px;border:1px solid rgba(0,212,255,.12);animation-duration:12s;}
+.aring:nth-child(2){width:260px;height:260px;border:1px solid rgba(123,47,255,.1);animation-duration:19s;animation-direction:reverse;}
+.aring:nth-child(3){width:360px;height:360px;border:1px solid rgba(255,45,206,.07);animation-duration:27s;}
+@keyframes rspin{from{transform:translate(-50%,-50%) rotate(0deg);}to{transform:translate(-50%,-50%) rotate(360deg);}}
+.a-icon{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:2.8rem;z-index:2;}
+.a-pills{position:absolute;bottom:20px;left:0;right:0;display:flex;gap:.5rem;flex-wrap:wrap;justify-content:center;padding:0 1rem;z-index:3;}
+.a-pill{padding:.28rem .75rem;background:rgba(8,8,16,.85);border:1px solid var(--border);border-radius:50px;font-size:.7rem;color:var(--neon1);backdrop-filter:blur(10px);font-weight:500;}
+.a-feats{display:flex;flex-direction:column;gap:.9rem;}
+.a-feat{display:flex;align-items:flex-start;gap:1rem;padding:1rem 1.1rem;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);transition:border-color .3s,transform .3s;}
+.a-feat:hover{border-color:rgba(0,212,255,.22);transform:translateX(4px);}
+.a-fi{font-size:1.2rem;flex-shrink:0;margin-top:1px;}
+.a-ft strong{font-family:'Plus Jakarta Sans',sans-serif;display:block;margin-bottom:.2rem;font-size:.92rem;font-weight:700;}
+.a-ft span{color:var(--muted);font-size:.84rem;line-height:1.6;}
+
+/* ─── PROCESS ─── */
+#process{background:var(--bg2);}
+.proc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;position:relative;}
+.proc-grid::after{content:'';position:absolute;top:33px;left:13%;right:13%;height:1px;background:linear-gradient(90deg,transparent,rgba(0,212,255,.28) 15%,rgba(123,47,255,.28) 50%,rgba(0,212,255,.28) 85%,transparent);z-index:0;}
+.proc-step{text-align:center;padding:0 1rem 1.5rem;position:relative;z-index:1;transition:transform .3s;}
+.proc-step:hover{transform:translateY(-6px);}
+.proc-circle{width:66px;height:66px;border-radius:50%;margin:0 auto 1.2rem;display:flex;align-items:center;justify-content:center;font-size:1.65rem;background:var(--bg2);border:1px solid rgba(0,212,255,.2);box-shadow:0 0 0 7px var(--bg2),0 0 0 8px rgba(0,212,255,.08);position:relative;z-index:2;transition:border-color .3s,box-shadow .3s;}
+.proc-step:hover .proc-circle{border-color:rgba(0,212,255,.5);box-shadow:0 0 0 7px var(--bg2),0 0 22px rgba(0,212,255,.28);}
+.proc-num{position:absolute;top:-8px;right:-4px;width:20px;height:20px;border-radius:50%;background:var(--grad);display:flex;align-items:center;justify-content:center;font-size:.62rem;font-weight:800;color:#fff;font-family:'Plus Jakarta Sans',sans-serif;}
+.proc-step h3{font-family:'Plus Jakarta Sans',sans-serif;font-size:1rem;font-weight:700;margin-bottom:.5rem;}
+.proc-step p{color:var(--muted);font-size:.84rem;line-height:1.72;}
+
+/* ─── PORTFOLIO ─── */
+#portfolio{background:var(--bg);}
+.port-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;}
+.port-card{border-radius:var(--rl);overflow:hidden;position:relative;border:1px solid var(--border);aspect-ratio:4/3;transition:transform .35s,box-shadow .35s,border-color .35s;}
+.port-card:first-child{grid-column:span 2;aspect-ratio:16/7;}
+.port-card:hover{transform:translateY(-6px);box-shadow:0 24px 56px rgba(0,0,0,.5),0 0 0 1px rgba(0,212,255,.14);border-color:rgba(0,212,255,.18);}
+.port-bg{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:4rem;transition:transform .5s;}
+.port-card:hover .port-bg{transform:scale(1.08);}
+.port-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(8,8,16,.96) 0%,rgba(8,8,16,.5) 55%,transparent 100%);display:flex;flex-direction:column;justify-content:flex-end;padding:1.4rem;gap:.3rem;opacity:0;transition:opacity .35s;}
+.port-card:hover .port-ov{opacity:1;}
+.port-ov h3{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.1rem;font-weight:700;}
+.port-ov p{color:rgba(255,255,255,.62);font-size:.82rem;line-height:1.5;}
+.port-tag{align-self:flex-start;margin-top:.4rem;padding:.22rem .75rem;border-radius:50px;border:1px solid rgba(0,212,255,.35);font-size:.7rem;color:var(--neon1);font-weight:500;}
+.port-lbl{position:absolute;bottom:0;left:0;right:0;padding:.9rem 1.2rem;background:linear-gradient(to top,rgba(8,8,16,.9) 0%,transparent 100%);transition:opacity .3s;}
+.port-card:hover .port-lbl{opacity:0;}
+.port-lbl h3{font-family:'Plus Jakarta Sans',sans-serif;font-size:.95rem;font-weight:700;}
+.port-lbl span{color:var(--muted);font-size:.78rem;}
+
+/* ─── TESTIMONIALS ─── */
+#testimonials{background:var(--bg2);overflow:hidden;}
+.t-slider{position:relative;}
+.t-over{overflow:hidden;}
+.t-track{display:flex;gap:1.5rem;transition:transform .5s cubic-bezier(.4,0,.2,1);will-change:transform;}
+.t-card{flex:0 0 calc(33.333% - 1rem);background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);padding:1.8rem;transition:border-color .3s,transform .3s;}
+.t-card:hover{border-color:rgba(0,212,255,.22);transform:translateY(-4px);}
+.stars{color:#fbbf24;font-size:.9rem;margin-bottom:1rem;letter-spacing:2px;}
+.t-text{color:var(--muted);font-size:.91rem;line-height:1.82;margin-bottom:1.5rem;}
+.t-auth{display:flex;align-items:center;gap:.8rem;}
+.t-av{width:42px;height:42px;border-radius:50%;background:var(--grad);display:flex;align-items:center;justify-content:center;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:.88rem;color:#fff;flex-shrink:0;}
+.t-name{font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:.9rem;}
+.t-role{color:var(--muted);font-size:.77rem;margin-top:1px;}
+.t-ctrl{display:flex;align-items:center;justify-content:center;gap:1rem;margin-top:2.4rem;}
+.t-btn{width:36px;height:36px;border-radius:50%;background:var(--surface);border:1px solid var(--border);color:var(--muted);cursor:pointer;font-size:.9rem;display:flex;align-items:center;justify-content:center;transition:all .3s;}
+.t-btn:hover{border-color:var(--neon1);color:var(--neon1);}
+.t-dots{display:flex;gap:.45rem;align-items:center;}
+.t-dot{width:7px;height:7px;border-radius:50%;background:var(--border);cursor:pointer;transition:all .3s;}
+.t-dot.on{background:var(--neon1);width:22px;border-radius:4px;}
+
+/* ─── PRICING ─── */
+#pricing{background:var(--bg);}
+.price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;align-items:start;}
+.price-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);padding:2rem;position:relative;transition:transform .3s,box-shadow .3s;}
+.price-card:hover{transform:translateY(-6px);}
+.price-card.hot{background:linear-gradient(160deg,rgba(0,212,255,.055),rgba(123,47,255,.055));border-color:rgba(0,212,255,.28);box-shadow:0 0 48px rgba(0,212,255,.07),0 20px 56px rgba(0,0,0,.32);}
+.price-badge{display:inline-block;margin-bottom:.75rem;padding:.27rem .9rem;background:var(--grad);border-radius:50px;font-size:.67rem;font-weight:700;color:#fff;letter-spacing:1px;font-family:'Plus Jakarta Sans',sans-serif;}
+.price-plan{font-family:'Plus Jakarta Sans',sans-serif;font-size:.74rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:.6rem;}
+.price-num{font-family:'Plus Jakarta Sans',sans-serif;font-size:2.75rem;font-weight:800;line-height:1;margin-bottom:.25rem;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.price-num sup{font-size:1.1rem;vertical-align:super;margin-right:2px;}
+.price-per{color:var(--muted);font-size:.82rem;margin-bottom:1.5rem;}
+.price-div{height:1px;background:var(--border);margin:1.4rem 0;}
+.price-feats{list-style:none;display:flex;flex-direction:column;gap:.75rem;margin-bottom:2rem;}
+.price-feats li{display:flex;align-items:flex-start;gap:.6rem;font-size:.875rem;color:var(--muted);}
+.price-feats li .ck{color:var(--neon1);font-weight:700;flex-shrink:0;margin-top:1px;}
+.price-feats li.no{opacity:.4;text-decoration:line-through;}
+.price-feats li.no .ck{color:var(--muted);}
+.btn-outline{width:100%;padding:.78rem;border-radius:50px;font-weight:600;font-size:.87rem;cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--text);font-family:'Inter',sans-serif;transition:all .3s;}
+.btn-outline:hover{border-color:var(--neon1);color:var(--neon1);}
+.btn-fill{width:100%;padding:.78rem;border-radius:50px;font-weight:600;font-size:.87rem;cursor:pointer;border:none;background:var(--grad);color:#fff;font-family:'Inter',sans-serif;box-shadow:0 0 20px rgba(0,212,255,.22);position:relative;overflow:hidden;transition:all .3s;}
+.btn-fill:hover{box-shadow:0 0 36px rgba(0,212,255,.42);transform:translateY(-2px);}
+
+/* ─── CONTACT ─── */
+#contact{background:var(--bg2);}
+.con-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:5rem;align-items:start;}
+.con-links{display:flex;flex-direction:column;gap:.9rem;margin-top:.5rem;}
+.con-link{display:flex;align-items:center;gap:1rem;padding:1rem 1.1rem;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);text-decoration:none;color:var(--text);transition:all .3s;}
+.con-link:hover{border-color:rgba(0,212,255,.28);color:var(--neon1);transform:translateX(5px);}
+.con-ico{width:40px;height:40px;border-radius:10px;background:var(--surface2);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;transition:background .3s;}
+.con-link:hover .con-ico{background:rgba(0,212,255,.1);}
+.con-lbl strong{display:block;font-size:.9rem;font-weight:600;}
+.con-lbl span{color:var(--muted);font-size:.8rem;}
+.con-form-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);padding:2rem;}
+.con-form-wrap h3{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.12rem;font-weight:700;margin-bottom:1.5rem;}
+.cform{display:flex;flex-direction:column;gap:1rem;}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.fg{display:flex;flex-direction:column;gap:.4rem;}
+.fg label{font-size:.82rem;color:var(--muted);font-weight:500;}
+.fg input,.fg textarea,.fg select{padding:.82rem 1rem;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:12px;color:var(--text);font-family:'Inter',sans-serif;font-size:.9rem;transition:border-color .3s,box-shadow .3s;outline:none;resize:none;-webkit-appearance:none;}
+.fg input::placeholder,.fg textarea::placeholder{color:rgba(136,136,170,.45);}
+.fg input:focus,.fg textarea:focus,.fg select:focus{border-color:rgba(0,212,255,.38);box-shadow:0 0 0 3px rgba(0,212,255,.07);}
+.fg select option{background:#0d0d1a;color:var(--text);}
+.fg textarea{min-height:110px;}
+.f-submit{padding:.88rem;border-radius:50px;background:var(--grad);color:#fff;font-weight:600;font-size:.95rem;cursor:pointer;border:none;font-family:'Inter',sans-serif;transition:all .3s;position:relative;overflow:hidden;box-shadow:0 0 24px rgba(0,212,255,.22);}
+.f-submit:hover{box-shadow:0 0 40px rgba(0,212,255,.42);transform:translateY(-2px);}
+
+/* ─── FOOTER ─── */
+footer{background:#050508;padding:64px 5% 32px;border-top:1px solid var(--border);}
+.foot-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;margin-bottom:3rem;}
+/* Footer logo — same swap mechanism as navbar */
+.foot-logo-wrap{display:flex;align-items:center;gap:.55rem;margin-bottom:.9rem;}
+.foot-logo-img{height:34px;width:auto;object-fit:contain;display:none;}
+.foot-logo-img.show{display:block;}
+.foot-logo-text{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.32rem;font-weight:800;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:1.5px;}
+.foot-brand p{color:var(--muted);font-size:.875rem;line-height:1.75;max-width:260px;}
+.foot-col h4{font-family:'Plus Jakarta Sans',sans-serif;font-size:.77rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:1.1rem;}
+.foot-col ul{list-style:none;display:flex;flex-direction:column;gap:.65rem;}
+.foot-col ul a{color:rgba(136,136,170,.78);text-decoration:none;font-size:.875rem;transition:color .3s;}
+.foot-col ul a:hover{color:var(--text);}
+.socials{display:flex;gap:.7rem;margin-top:1.3rem;}
+.soc{width:36px;height:36px;border-radius:9px;background:var(--surface);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--muted);text-decoration:none;font-size:.9rem;font-weight:700;transition:all .3s;}
+.soc:hover{border-color:var(--neon1);color:var(--neon1);box-shadow:0 0 14px rgba(0,212,255,.18);}
+.foot-bot{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.8rem;padding-top:2rem;border-top:1px solid var(--border);}
+.foot-bot p{color:var(--muted);font-size:.82rem;}
+
+/* ─── WHATSAPP ─── */
+.wa{position:fixed;bottom:28px;right:28px;z-index:800;width:54px;height:54px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;text-decoration:none;font-size:1.5rem;animation:wapulse 2.8s ease-in-out infinite;transition:transform .2s;}
+.wa:hover{transform:scale(1.12);animation-play-state:paused;}
+@keyframes wapulse{0%,100%{box-shadow:0 4px 18px rgba(37,211,102,.4),0 0 0 0 rgba(37,211,102,.3);}50%{box-shadow:0 4px 18px rgba(37,211,102,.4),0 0 0 14px rgba(37,211,102,0);}}
+.wa-tip{position:absolute;right:62px;top:50%;transform:translateY(-50%);background:rgba(8,8,16,.92);border:1px solid var(--border);border-radius:8px;padding:.35rem .75rem;font-size:.77rem;white-space:nowrap;color:var(--text);opacity:0;pointer-events:none;transition:opacity .3s;backdrop-filter:blur(12px);}
+.wa:hover .wa-tip{opacity:1;}
+
+/* ─── KEYFRAMES ─── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px);}to{opacity:1;transform:translateY(0);}}
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:1100px){
+  .srv-grid{grid-template-columns:repeat(2,1fr);}
+  .price-grid{grid-template-columns:repeat(3,1fr);}
+  .port-grid{grid-template-columns:repeat(2,1fr);}
+  .port-card:first-child{grid-column:span 2;}
+}
+@media(max-width:960px){
+  .about-grid{grid-template-columns:1fr;gap:3rem;}
+  .about-vis{height:300px;}
+  .con-grid{grid-template-columns:1fr;gap:3rem;}
+  .proc-grid{grid-template-columns:repeat(2,1fr);gap:2rem;}
+  .proc-grid::after{display:none;}
+  .foot-grid{grid-template-columns:1fr 1fr;gap:2.5rem;}
+  .t-card{flex:0 0 calc(50% - .75rem);}
+}
+@media(max-width:768px){
+  .nav-links,.nav-cta{display:none;}
+  .ham{display:flex;}
+  section{padding:72px 5%;}
+  .srv-grid{grid-template-columns:1fr;}
+  .price-grid{grid-template-columns:1fr;}
+  .port-grid{grid-template-columns:1fr;}
+  .port-card:first-child{grid-column:span 1;aspect-ratio:4/3;}
+  .hero-btns{flex-direction:column;align-items:center;}
+  .hero-btns .btn-p,.hero-btns .btn-s{width:100%;max-width:290px;text-align:center;}
+  .t-card{flex:0 0 100%;}
+  .foot-grid{grid-template-columns:1fr;gap:2rem;}
+  .foot-bot{flex-direction:column;text-align:center;}
+  .frow{grid-template-columns:1fr;}
+  .sdiv{display:none;}
+}
+@media(max-width:480px){
+  .proc-grid{grid-template-columns:1fr;}
+  h1{font-size:2.3rem;letter-spacing:-.5px;}
+  .price-card.hot{transform:none;}
+  .stat-n{font-size:1.5rem;}
+}
+</style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<!-- ═══════════ NAVBAR ═══════════
+  TO ADD YOUR LOGO:
+  1. Upload your logo file (PNG/SVG) to the same folder as this HTML.
+  2. Find the two <img> tags below with id="navLogoImg" and id="footLogoImg".
+  3. Change their src="" to your file name, e.g. src="atmonic-logo.png"
+  4. The image will appear and the text fallback will disappear automatically.
+════════════════════════════════ -->
+<nav id="navbar">
+  <a href="#hero" class="logo-wrap">
+    <img id="navLogoImg" class="logo-img" src="" alt="ATMONIC"
+      onload="this.classList.add('show');document.getElementById('navLogoTxt').style.display='none';">
+    <span id="navLogoTxt" class="logo-text">ATMONIC</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="#portfolio">Work</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Get Started →</a>
+  <button class="ham" id="hamBtn" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<nav class="mob-menu" id="mobMenu">
+  <a href="#services" onclick="closeMob()">Services</a>
+  <a href="#about" onclick="closeMob()">About</a>
+  <a href="#process" onclick="closeMob()">Process</a>
+  <a href="#portfolio" onclick="closeMob()">Work</a>
+  <a href="#pricing" onclick="closeMob()">Pricing</a>
+  <a href="#contact" onclick="closeMob()">Contact</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg" id="heroBg"></div>
+  <div class="grid-bg"></div>
+  <div class="particles" id="ptcls"></div>
+  <div class="hero-inner">
+    <div class="hero-badge"><span class="dot"></span>AI-Powered Agency · Est. 2024</div>
+    <h1>Build <span class="g">Smarter.</span><br>Grow <span class="g">Faster.</span></h1>
+    <p class="hero-sub">AI-powered websites, apps, and automation systems that drive real business growth. We build the future, today.</p>
+    <div class="hero-btns">
+      <a href="#contact" class="btn-p">Get Started →</a>
+      <a href="#contact" class="btn-s">Book Free Consultation</a>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="stat-n" id="s1">50+</div><div class="stat-l">Projects Delivered</div></div>
+      <div class="sdiv"></div>
+      <div class="stat"><div class="stat-n" id="s2">98%</div><div class="stat-l">Client Satisfaction</div></div>
+      <div class="sdiv"></div>
+      <div class="stat"><div class="stat-n" id="s3">3×</div><div class="stat-l">Avg Revenue Growth</div></div>
+      <div class="sdiv"></div>
+      <div class="stat"><div class="stat-n" id="s4">7d</div><div class="stat-l">Avg Delivery Time</div></div>
+    </div>
+  </div>
+  <div class="scroll-hint"><div class="scroll-line"></div></div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="sh c reveal">
+    <div class="slabel">What We Do</div>
+    <h2 class="stitle">Services That <span class="g">Scale</span></h2>
+    <p class="ssub">From concept to launch, we craft digital products powered by cutting-edge AI technology.</p>
+  </div>
+  <div class="srv-grid">
+    <div class="srv-card reveal"><div class="srv-icon">🌐</div><h3>Web Development</h3><p>Lightning-fast, conversion-optimized websites built with modern frameworks. From landing pages to full SaaS platforms.</p><span class="srv-tag">Next.js · React · Webflow</span></div>
+    <div class="srv-card reveal"><div class="srv-icon">📱</div><h3>App Development</h3><p>Native and cross-platform mobile apps with sleek UI/UX. iOS and Android apps built for performance and user retention.</p><span class="srv-tag">React Native · Flutter</span></div>
+    <div class="srv-card reveal"><div class="srv-icon">🤖</div><h3>AI Automation &amp; Agents</h3><p>Custom AI workflows, chatbots, and automation systems that eliminate repetitive tasks and supercharge your operations.</p><span class="srv-tag">OpenAI · LangChain · n8n</span></div>
+    <div class="srv-card reveal"><div class="srv-icon">🎬</div><h3>Video Editing</h3><p>Cinematic brand videos, reels, and YouTube content that captivate your audience and drive engagement across every platform.</p><span class="srv-tag">Premiere · After Effects</span></div>
+    <div class="srv-card reveal"><div class="srv-icon">✨</div><h3>Resume &amp; Personal Branding</h3><p>Premium personal brand websites, ATS-optimized resumes, and LinkedIn profiles that get you noticed by top companies.</p><span class="srv-tag">Personal Brand · Portfolio</span></div>
+    <div class="srv-card reveal" style="background:linear-gradient(135deg,rgba(0,212,255,.05),rgba(123,47,255,.05));border-color:rgba(0,212,255,.14);">
+      <div class="srv-icon" style="background:rgba(0,212,255,.09);border-color:rgba(0,212,255,.22);">🚀</div>
+      <h3>Full Launch Package</h3>
+      <p>Complete digital launch: website + app + automation + branding — everything you need to go from idea to live product in record time.</p>
+      <span class="srv-tag" style="background:rgba(123,47,255,.09);border-color:rgba(123,47,255,.22);color:#a78bfa;">Full Stack Bundle</span>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-grid">
+    <div class="about-vis reveal">
+      <div class="a-glow"></div>
+      <div class="a-rings"><div class="aring"></div><div class="aring"></div><div class="aring"></div></div>
+      <div class="a-icon">⚡</div>
+      <div class="a-pills"><span class="a-pill">AI-First</span><span class="a-pill">Fast Delivery</span><span class="a-pill">Results-Driven</span></div>
+    </div>
+    <div class="reveal">
+      <div class="slabel">About ATMONIC</div>
+      <h2 class="stitle">Young, Fast &amp;<br><span class="g">Relentless</span></h2>
+      <p class="ssub">We're not your average agency. ATMONIC is a team of builders obsessed with AI, design, and shipping products that actually move the needle.</p>
+      <p class="ssub" style="margin-top:-1.5rem;">Founded by a new-gen entrepreneur, we combine deep technical expertise with a startup mindset — delivering results in days, not months.</p>
+      <div class="a-feats">
+        <div class="a-feat"><div class="a-fi">⚡</div><div class="a-ft"><strong>AI-First Approach</strong><span>Every solution is enhanced with AI — from design to deployment. We don't just use AI, we build with it.</span></div></div>
+        <div class="a-feat"><div class="a-fi">🎯</div><div class="a-ft"><strong>Results Over Everything</strong><span>We measure success in growth metrics, not deliverables. Your wins are our wins.</span></div></div>
+        <div class="a-feat"><div class="a-fi">🔥</div><div class="a-ft"><strong>Obsessive Speed</strong><span>While others take months, we ship in days. Speed is our competitive advantage.</span></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="process">
+  <div class="sh c reveal">
+    <div class="slabel">How We Work</div>
+    <h2 class="stitle">From Idea to <span class="g">Launch</span></h2>
+    <p class="ssub">A streamlined 4-step process that gets your product live — fast, clean, and built to scale.</p>
+  </div>
+  <div class="proc-grid">
+    <div class="proc-step reveal"><div class="proc-circle">🔍<span class="proc-num">1</span></div><h3>Discover</h3><p>Deep-dive into your goals, audience, and competitive landscape to define a winning strategy.</p></div>
+    <div class="proc-step reveal"><div class="proc-circle">🎨<span class="proc-num">2</span></div><h3>Design</h3><p>Craft pixel-perfect wireframes and high-fidelity designs that convert visitors into customers.</p></div>
+    <div class="proc-step reveal"><div class="proc-circle">⚙️<span class="proc-num">3</span></div><h3>Build</h3><p>Develop with clean, scalable code. Integrate AI tools and automation for maximum efficiency.</p></div>
+    <div class="proc-step reveal"><div class="proc-circle">🚀<span class="proc-num">4</span></div><h3>Launch</h3><p>Deploy, test, optimize. We stay with you post-launch to ensure everything performs flawlessly.</p></div>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section id="portfolio">
+  <div class="sh reveal">
+    <div class="slabel">Our Work</div>
+    <h2 class="stitle">Projects That <span class="g">Speak</span></h2>
+    <p class="ssub">A curated showcase of our best work across web, mobile, and AI automation.</p>
+  </div>
+  <div class="port-grid">
+    <div class="port-card reveal" style="background:linear-gradient(135deg,rgba(0,212,255,.06),rgba(123,47,255,.06));">
+      <div class="port-bg" style="background:linear-gradient(135deg,rgba(0,212,255,.07),rgba(123,47,255,.07));">🌐</div>
+      <div class="port-ov"><span class="port-tag">Web App</span><h3>NovaSaaS Platform</h3><p>Full-stack SaaS dashboard with AI analytics and real-time data visualization.</p></div>
+      <div class="port-lbl"><h3>NovaSaaS Platform</h3><span>Web Development · AI Integration</span></div>
+    </div>
+    <div class="port-card reveal" style="background:linear-gradient(135deg,rgba(255,45,206,.06),rgba(123,47,255,.06));">
+      <div class="port-bg">📱</div>
+      <div class="port-ov"><span class="port-tag">Mobile App</span><h3>FitTrack App</h3><p>AI-powered fitness tracking with personalized coaching and nutrition insights.</p></div>
+      <div class="port-lbl"><h3>FitTrack App</h3><span>App Development · React Native</span></div>
+    </div>
+    <div class="port-card reveal" style="background:linear-gradient(135deg,rgba(0,212,255,.06),rgba(255,165,0,.06));">
+      <div class="port-bg">🤖</div>
+      <div class="port-ov"><span class="port-tag">AI Automation</span><h3>AutoLeads Agent</h3><p>Autonomous lead generation saving 40+ hours/week.</p></div>
+      <div class="port-lbl"><h3>AutoLeads Agent</h3><span>AI Automation · Lead Gen</span></div>
+    </div>
+    <div class="port-card reveal" style="background:linear-gradient(135deg,rgba(123,47,255,.06),rgba(255,45,206,.06));">
+      <div class="port-bg">✨</div>
+      <div class="port-ov"><span class="port-tag">Personal Branding</span><h3>FounderBrand Kit</h3><p>Complete personal branding — website, resume, and LinkedIn overhaul.</p></div>
+      <div class="port-lbl"><h3>FounderBrand Kit</h3><span>Personal Branding · Design</span></div>
+    </div>
+    <div class="port-card reveal" style="background:linear-gradient(135deg,rgba(0,200,100,.06),rgba(0,212,255,.06));">
+      <div class="port-bg">🎬</div>
+      <div class="port-ov"><span class="port-tag">Video</span><h3>BrandFilm Series</h3><p>6-part series that grew a channel to 50K subscribers in 3 months.</p></div>
+      <div class="port-lbl"><h3>BrandFilm Series</h3><span>Video Editing · Strategy</span></div>
+    </div>
+    <div class="port-card reveal" style="background:linear-gradient(135deg,rgba(255,165,0,.06),rgba(255,45,206,.06));">
+      <div class="port-bg">🏪</div>
+      <div class="port-ov"><span class="port-tag">E-Commerce</span><h3>ShopNeural Store</h3><p>AI-personalized e-commerce with recommendation engine &amp; auto inventory.</p></div>
+      <div class="port-lbl"><h3>ShopNeural Store</h3><span>Web Dev · AI Recommendations</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="sh c reveal">
+    <div class="slabel">Social Proof</div>
+    <h2 class="stitle">Clients Who <span class="g">Trust Us</span></h2>
+    <p class="ssub">Real results from real businesses who chose to build with ATMONIC.</p>
+  </div>
+  <div class="t-slider reveal">
+    <div class="t-over">
+      <div class="t-track" id="tTrack">
+        <div class="t-card"><div class="stars">★★★★★</div><p class="t-text">"ATMONIC transformed our business completely. They built an AI automation system that saves us 30+ hours every single week. The quality of work is genuinely world-class."</p><div class="t-auth"><div class="t-av">AK</div><div><div class="t-name">Arjun Kapoor</div><div class="t-role">CEO, GrowthLab India</div></div></div></div>
+        <div class="t-card"><div class="stars">★★★★★</div><p class="t-text">"I needed a complete rebrand — website, resume, the works. ATMONIC delivered in under a week. The website got me 3 interview calls in the first month. Absolutely incredible."</p><div class="t-auth"><div class="t-av">SR</div><div><div class="t-name">Sneha Rao</div><div class="t-role">Product Manager, TechStartup</div></div></div></div>
+        <div class="t-card"><div class="stars">★★★★★</div><p class="t-text">"The app they built for us hit 10K downloads in the first month. Their AI-first approach to development is unlike anything I've seen from any agency. Fast, smart, invested."</p><div class="t-auth"><div class="t-av">RV</div><div><div class="t-name">Rahul Verma</div><div class="t-role">Founder, FitStack</div></div></div></div>
+        <div class="t-card"><div class="stars">★★★★★</div><p class="t-text">"Our e-commerce revenue tripled after ATMONIC rebuilt our store with their AI recommendation engine. Best investment we've made as a business. Highly recommend."</p><div class="t-auth"><div class="t-av">PM</div><div><div class="t-name">Priya Mehta</div><div class="t-role">Founder, StyleNeural</div></div></div></div>
+      </div>
+    </div>
+    <div class="t-ctrl">
+      <button class="t-btn" id="tPrev">←</button>
+      <div class="t-dots" id="tDots"></div>
+      <button class="t-btn" id="tNext">→</button>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing">
+  <div class="sh c reveal">
+    <div class="slabel">Pricing</div>
+    <h2 class="stitle">Simple, <span class="g">Transparent</span> Pricing</h2>
+    <p class="ssub">Choose the plan that fits your stage. All plans include dedicated support and AI-powered delivery.</p>
+  </div>
+  <div class="price-grid">
+    <div class="price-card reveal">
+      <div class="price-plan">Starter</div>
+      <div class="price-num"><sup>₹</sup>9,999</div>
+      <div class="price-per">one-time · per project</div>
+      <div class="price-div"></div>
+      <ul class="price-feats">
+        <li><span class="ck">✓</span>Landing Page / Portfolio Site</li>
+        <li><span class="ck">✓</span>Mobile Responsive Design</li>
+        <li><span class="ck">✓</span>Basic SEO Setup</li>
+        <li><span class="ck">✓</span>2 Revisions · 7-Day Delivery</li>
+        <li class="no"><span class="ck">✕</span>AI Automation</li>
+        <li class="no"><span class="ck">✕</span>Custom Integrations</li>
+      </ul>
+      <button class="btn-outline" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Get Started</button>
+    </div>
+    <div class="price-card hot reveal">
+      <div class="price-badge">✦ MOST POPULAR</div>
+      <div class="price-plan">Growth</div>
+      <div class="price-num"><sup>₹</sup>29,999</div>
+      <div class="price-per">one-time · per project</div>
+      <div class="price-div"></div>
+      <ul class="price-feats">
+        <li><span class="ck">✓</span>Full Website or Mobile App</li>
+        <li><span class="ck">✓</span>Premium UI/UX Design</li>
+        <li><span class="ck">✓</span>AI Chatbot Integration</li>
+        <li><span class="ck">✓</span>1 Automation Workflow</li>
+        <li><span class="ck">✓</span>Advanced SEO · 5 Revisions</li>
+        <li><span class="ck">✓</span>14-Day Delivery</li>
+      </ul>
+      <button class="btn-fill" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Get Started →</button>
+    </div>
+    <div class="price-card reveal">
+      <div class="price-plan">Premium</div>
+      <div class="price-num"><sup>₹</sup>74,999</div>
+      <div class="price-per">one-time · per project</div>
+      <div class="price-div"></div>
+      <ul class="price-feats">
+        <li><span class="ck">✓</span>Full-Stack Web + Mobile App</li>
+        <li><span class="ck">✓</span>Custom AI Agent / Automation</li>
+        <li><span class="ck">✓</span>Complete Brand Identity</li>
+        <li><span class="ck">✓</span>Video Editing (3 videos)</li>
+        <li><span class="ck">✓</span>Unlimited Revisions</li>
+        <li><span class="ck">✓</span>30-Day Priority Support</li>
+      </ul>
+      <button class="btn-outline" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Get Started</button>
+    </div>
+  </div>
+  <p style="text-align:center;color:var(--muted);font-size:.83rem;margin-top:2rem;">All prices are starting rates. Custom quotes available. <a href="#contact" style="color:var(--neon1);text-decoration:none;">Book a free call →</a></p>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="con-grid">
+    <div class="reveal">
+      <div class="slabel">Let's Talk</div>
+      <h2 class="stitle">Start Your <span class="g">Project</span></h2>
+      <p class="ssub">Book a free 30-minute strategy call. No obligations, just a clear plan for your growth.</p>
+      <div class="con-links">
+        <a href="https://wa.me/917000000000" class="con-link" target="_blank" rel="noopener"><div class="con-ico">💬</div><div class="con-lbl"><strong>WhatsApp</strong><span>+91 70000 00000</span></div></a>
+        <a href="mailto:hello@atmonic.in" class="con-link"><div class="con-ico">✉️</div><div class="con-lbl"><strong>Email</strong><span>hello@atmonic.in</span></div></a>
+        <a href="#" class="con-link"><div class="con-ico">📅</div><div class="con-lbl"><strong>Book a Free Call</strong><span>Schedule via Calendly</span></div></a>
+      </div>
+    </div>
+    <div class="con-form-wrap reveal">
+      <h3>Send us a message</h3>
+      <form class="cform" id="cform" onsubmit="submitForm(event)">
+        <div class="frow">
+          <div class="fg"><label>Your Name</label><input type="text" placeholder="Rahul Sharma" required></div>
+          <div class="fg"><label>Email Address</label><input type="email" placeholder="rahul@company.com" required></div>
+        </div>
+        <div class="fg">
+          <label>Service Interested In</label>
+          <select>
+            <option value="">Select a service…</option>
+            <option>Web Development</option>
+            <option>App Development</option>
+            <option>AI Automation / AI Agents</option>
+            <option>Video Editing</option>
+            <option>Resume &amp; Personal Branding</option>
+            <option>Full Launch Package</option>
+            <option>Something else</option>
+          </select>
+        </div>
+        <div class="fg"><label>Tell us about your project</label><textarea placeholder="I need help with…" required></textarea></div>
+        <button type="submit" class="f-submit">Send Message →</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-grid">
+    <div class="foot-brand">
+      <!-- ↓ FOOTER LOGO — set src to your logo file path -->
+      <div class="foot-logo-wrap">
+        <img id="footLogoImg" class="foot-logo-img" src="" alt="ATMONIC"
+          onload="this.classList.add('show');document.getElementById('footLogoTxt').style.display='none';">
+        <span id="footLogoTxt" class="foot-logo-text">ATMONIC</span>
+      </div>
+      <p>Building the next generation of AI-powered digital products. Fast, smart, and built to last.</p>
+      <div class="socials">
+        <a href="#" class="soc" title="X / Twitter">𝕏</a>
+        <a href="#" class="soc" title="LinkedIn">in</a>
+        <a href="#" class="soc" title="YouTube">▶</a>
+        <a href="#" class="soc" title="Instagram">▣</a>
+      </div>
+    </div>
+    <div class="foot-col"><h4>Services</h4><ul><li><a href="#services">Web Development</a></li><li><a href="#services">App Development</a></li><li><a href="#services">AI Automation</a></li><li><a href="#services">Video Editing</a></li><li><a href="#services">Personal Branding</a></li></ul></div>
+    <div class="foot-col"><h4>Company</h4><ul><li><a href="#about">About Us</a></li><li><a href="#process">Our Process</a></li><li><a href="#portfolio">Portfolio</a></li><li><a href="#pricing">Pricing</a></li><li><a href="#contact">Contact</a></li></ul></div>
+    <div class="foot-col"><h4>Legal</h4><ul><li><a href="#">Privacy Policy</a></li><li><a href="#">Terms of Service</a></li><li><a href="#">Refund Policy</a></li><li><a href="#">Cookie Policy</a></li></ul></div>
+  </div>
+  <div class="foot-bot">
+    <p>© <span id="yr"></span> ATMONIC. All rights reserved. Built with ⚡ in India.</p>
+    <p>Udaipur, Rajasthan · India</p>
+  </div>
+</footer>
+
+<!-- WHATSAPP FLOAT -->
+<a href="https://wa.me/917000000000" class="wa" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+  💬<span class="wa-tip">Chat on WhatsApp</span>
+</a>
+
+<script>
+/* ════════════ SCROLL (single listener, rAF-throttled) ════════════ */
+let ticking = false;
+window.addEventListener('scroll', () => {
+  if (!ticking) {
+    requestAnimationFrame(() => {
+      const sy = window.scrollY;
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      document.getElementById('progress-bar').style.width = (sy / max * 100) + '%';
+      document.getElementById('navbar').classList.toggle('scrolled', sy > 30);
+      if (sy < window.innerHeight * 1.3) {
+        const hc = document.querySelector('.hero-inner');
+        const hb = document.getElementById('heroBg');
+        if (hc) hc.style.transform = `translateY(${sy * .2}px)`;
+        if (hb) hb.style.transform = `translateY(${sy * .1}px)`;
+      }
+      ticking = false;
+    });
+    ticking = true;
+  }
+});
+
+/* ════════════ HAMBURGER ════════════ */
+const hamBtn = document.getElementById('hamBtn');
+const mobMenu = document.getElementById('mobMenu');
+hamBtn.addEventListener('click', () => {
+  const open = mobMenu.classList.contains('open');
+  if (open) { closeMob(); } else { hamBtn.classList.add('open'); mobMenu.classList.add('open'); }
+});
+function closeMob() { hamBtn.classList.remove('open'); mobMenu.classList.remove('open'); }
+document.addEventListener('click', e => {
+  if (!hamBtn.contains(e.target) && !mobMenu.contains(e.target)) closeMob();
+});
+
+/* ════════════ PARTICLES ════════════ */
+(function(){
+  const c = document.getElementById('ptcls');
+  const cols = ['rgba(0,212,255,','rgba(123,47,255,','rgba(255,45,206,'];
+  for (let i=0;i<22;i++){
+    const p = document.createElement('div'); p.className='particle';
+    const sz = (Math.random()*2.4+1).toFixed(1);
+    const col = cols[i%3]; const op = (Math.random()*.5+.18).toFixed(2);
+    p.style.cssText=`width:${sz}px;height:${sz}px;left:${(Math.random()*100).toFixed(1)}%;background:${col}${op});animation-duration:${(Math.random()*14+10).toFixed(1)}s;animation-delay:${(Math.random()*12).toFixed(1)}s;box-shadow:0 0 ${(sz*3).toFixed(0)}px ${col}.4);`;
+    c.appendChild(p);
+  }
+})();
+
+/* ════════════ CARD GLOW ════════════ */
+document.querySelectorAll('.srv-card').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const r = card.getBoundingClientRect();
+    card.style.setProperty('--mx', ((e.clientX-r.left)/r.width*100)+'%');
+    card.style.setProperty('--my', ((e.clientY-r.top)/r.height*100)+'%');
+  });
+});
+
+/* ════════════ SCROLL REVEAL ════════════ */
+const ro = new IntersectionObserver((entries) => {
+  entries.forEach((en,i) => {
+    if (en.isIntersecting) {
+      setTimeout(() => en.target.classList.add('vis'), i * 70);
+      ro.unobserve(en.target);
+    }
+  });
+}, { threshold:.08, rootMargin:'0px 0px -36px 0px' });
+document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
+
+/* ════════════ TESTIMONIALS SLIDER (fully fixed) ════════════ */
+const tTrack = document.getElementById('tTrack');
+const tDotWrap = document.getElementById('tDots');
+const tCards = Array.from(tTrack.querySelectorAll('.t-card'));
+let tIdx = 0, tTimer;
+
+function tVisible() {
+  if (window.innerWidth > 960) return 3;
+  if (window.innerWidth > 600) return 2;
+  return 1;
+}
+function tMaxIdx() { return Math.max(0, tCards.length - tVisible()); }
+
+function tBuildDots() {
+  const total = Math.ceil(tCards.length / tVisible());
+  tDotWrap.innerHTML = '';
+  for (let i=0;i<total;i++){
+    const d=document.createElement('div'); d.className='t-dot'+(i===0?' on':'');
+    d.addEventListener('click',()=>tGo(i * tVisible()));
+    tDotWrap.appendChild(d);
+  }
+}
+
+function tGo(n) {
+  tIdx = Math.min(Math.max(n,0), tMaxIdx());
+  // Measure card width live from DOM for accuracy
+  const cardW = tCards[0].offsetWidth;
+  const gap = 24;
+  tTrack.style.transform = `translateX(-${tIdx * (cardW + gap)}px)`;
+  // Sync dots
+  const dotEls = tDotWrap.querySelectorAll('.t-dot');
+  const dotActive = Math.floor(tIdx / tVisible());
+  dotEls.forEach((d,i) => d.classList.toggle('on', i===dotActive));
+}
+
+function tStart() {
+  clearInterval(tTimer);
+  tTimer = setInterval(() => { tGo(tIdx + 1 > tMaxIdx() ? 0 : tIdx + 1); }, 4500);
+}
+
+document.getElementById('tPrev').addEventListener('click', () => { tGo(tIdx-1); tStart(); });
+document.getElementById('tNext').addEventListener('click', () => { tGo(tIdx+1); tStart(); });
+
+// Swipe support
+let tx0=0;
+tTrack.addEventListener('touchstart', e=>{tx0=e.touches[0].clientX;},{passive:true});
+tTrack.addEventListener('touchend', e=>{
+  const dx=tx0-e.changedTouches[0].clientX;
+  if(Math.abs(dx)>40){tGo(dx>0?tIdx+1:tIdx-1);tStart();}
+});
+
+window.addEventListener('resize', ()=>{ tBuildDots(); tGo(0); });
+tBuildDots(); tStart();
+
+/* ════════════ RIPPLE ════════════ */
+document.querySelectorAll('.btn-p,.btn-fill,.f-submit').forEach(btn => {
+  btn.addEventListener('click', function(e) {
+    const r=this.getBoundingClientRect();
+    const rip=document.createElement('span'); rip.className='ripple';
+    const sz=Math.max(r.width,r.height);
+    rip.style.cssText=`width:${sz}px;height:${sz}px;left:${e.clientX-r.left-sz/2}px;top:${e.clientY-r.top-sz/2}px`;
+    this.appendChild(rip); setTimeout(()=>rip.remove(),660);
+  });
+});
+
+/* ════════════ FORM SUBMIT ════════════ */
+function submitForm(e) {
+  e.preventDefault();
+  const btn=e.target.querySelector('.f-submit');
+  btn.textContent='✓ Message Sent!';
+  btn.style.background='linear-gradient(135deg,#10b981,#059669)';
+  btn.disabled=true;
+  setTimeout(()=>{ btn.textContent='Send Message →'; btn.style.background=''; btn.disabled=false; e.target.reset(); },3200);
+}
+
+/* ════════════ COUNTERS ════════════ */
+const cData=[{id:'s1',end:50,sfx:'+'},{id:'s2',end:98,sfx:'%'},{id:'s3',end:3,sfx:'×'},{id:'s4',end:7,sfx:'d'}];
+const cObs=new IntersectionObserver(en=>{
+  if(en[0].isIntersecting){
+    cData.forEach(({id,end,sfx})=>{
+      const el=document.getElementById(id); if(!el)return;
+      let cur=0; const step=end/55;
+      const t=setInterval(()=>{ cur=Math.min(cur+step,end); el.textContent=Math.floor(cur)+sfx; if(cur>=end)clearInterval(t); },22);
+    }); cObs.disconnect();
+  }
+},{threshold:.6});
+const statsEl=document.querySelector('.stats');
+if(statsEl)cObs.observe(statsEl);
+
+/* ════════════ FOOTER YEAR (dynamic) ════════════ */
+document.getElementById('yr').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
